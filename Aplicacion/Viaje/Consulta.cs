@@ -6,16 +6,17 @@ using System.Threading.Tasks;
 using System.Threading;
 using Persistencia;
 using Microsoft.EntityFrameworkCore;
+using Dominio.DTO;
 
 namespace Aplicacion.Viaje
 {
     public class Consulta
     {
-        public class Ejecuta : IRequest<List<Viajes>>
+        public class Ejecuta : IRequest<List<DTO_Viaje>>
         {
         }
 
-        public class Manejador : IRequestHandler<Ejecuta, List<Viajes>>
+        public class Manejador : IRequestHandler<Ejecuta, List<DTO_Viaje>>
         {
             private readonly Context _context;
             private readonly IMapper _mapper;
@@ -25,19 +26,13 @@ namespace Aplicacion.Viaje
                 _mapper = IMapper;
                 _context = context;
             }
-            public async Task<List<Viajes>> Handle(Ejecuta request, CancellationToken cancellationToken)
+            public async Task<List<DTO_Viaje>> Handle(Ejecuta request, CancellationToken cancellationToken)
             {
-                var viajes = await _context.Viajes.ToListAsync();
-                if(viajes.Count == 0)
-                {
-                    var viaje = new Viajes();
-                    viajes.Add(viaje);
-                }
+                var viajes = await _context.Viajes.Include(v => v.Ciudad).ThenInclude(c => c.Provincia).ToListAsync();
 
-                //var listaDTO = _mapper.Map<List<Dominio.Beneficios>, List<DTO_Beneficio>>(beneficios);
+                var listaDTO = _mapper.Map<List<Viajes>, List<DTO_Viaje>>(viajes);
 
-                //return listaDTO;
-                return viajes;
+                return listaDTO;
             }
         }
     }

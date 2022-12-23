@@ -8,15 +8,15 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Aplicacion.Provincia
+namespace Aplicacion.VehiculoTipoVehiculo
 {
     public class Consulta
     {
-        public class Ejecuta : IRequest<List<DTO_Provincia>>
+        public class Ejecuta : IRequest<List<DTO_VehiculoTipoVehiculo>>
         {
         }
 
-        public class Manejador : IRequestHandler<Ejecuta, List<DTO_Provincia>>
+        public class Manejador : IRequestHandler<Ejecuta, List<DTO_VehiculoTipoVehiculo>>
         {
             private readonly Context _context;
             private readonly IMapper _mapper;
@@ -26,11 +26,11 @@ namespace Aplicacion.Provincia
                 _context = context;
                 _mapper = mapper;
             }
-            public async Task<List<DTO_Provincia>> Handle(Ejecuta request, CancellationToken cancellationToken)
+            public async Task<List<DTO_VehiculoTipoVehiculo>> Handle(Ejecuta request, CancellationToken cancellationToken)
             {
-                var provincias = await _context.Provincias.ToListAsync();
+                var tiposVehiculo = await _context.VehiculosTipoVehiculo.ToListAsync();
 
-                var listaDTO = _mapper.Map<List<Provincias>, List<DTO_Provincia>>(provincias);
+                var listaDTO = _mapper.Map<List<VehiculosTipoVehiculo>, List<DTO_VehiculoTipoVehiculo>>(tiposVehiculo);
 
                 return listaDTO;
             }

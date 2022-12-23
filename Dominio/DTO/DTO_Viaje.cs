@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace Dominio
+namespace Dominio.DTO
 {
-    public class Viajes
+    public class DTO_Viaje
     {
         public int IdViaje { get; set; }
         public int IdCiudad { get; set; }
@@ -11,6 +10,6 @@ namespace Dominio
         public DateTime Fecha { get; set; }
         public string NombreReserva { get; set; }
 
-        public Ciudades Ciudad { get; set; }
+        public DTO_Ciudad Ciudad { get; set; }
     }
 }

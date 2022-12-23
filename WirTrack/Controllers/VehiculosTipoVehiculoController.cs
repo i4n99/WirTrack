@@ -1,4 +1,4 @@
-﻿using Aplicacion.Provincia;
+﻿using Aplicacion.VehiculoTipoVehiculo;
 using Dominio.DTO;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -9,11 +9,10 @@ namespace WirTrack.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-
-    public class ProvinciasController : MiControllerBase
+    public class VehiculosTipoVehiculoController : MiControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<List<DTO_Provincia>>> Consulta()
+        public async Task<ActionResult<List<DTO_VehiculoTipoVehiculo>>> Consulta()
         {
             return await mediator.Send(new Consulta.Ejecuta());
         }
@@ -24,10 +23,10 @@ namespace WirTrack.Controllers
             return await mediator.Send(data);
         }
 
-        [HttpDelete("{idProvincia}")]
-        public async Task<ActionResult<Unit>> Eliminar(int idProvincia)
+        [HttpDelete("{idTipoVehiculo}")]
+        public async Task<ActionResult<Unit>> Eliminar(int idTipoVehiculo)
         {
-            return await mediator.Send(new Eliminar.Ejecuta { IdProvincia = idProvincia });
+            return await mediator.Send(new Eliminar.Ejecuta { IdTipoVehiculo = idTipoVehiculo });
         }
     }
 }

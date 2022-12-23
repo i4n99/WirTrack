@@ -8,15 +8,15 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Aplicacion.Provincia
+namespace Aplicacion.Ciudad
 {
     public class Consulta
     {
-        public class Ejecuta : IRequest<List<DTO_Provincia>>
+        public class Ejecuta : IRequest<List<DTO_Ciudad>>
         {
         }
 
-        public class Manejador : IRequestHandler<Ejecuta, List<DTO_Provincia>>
+        public class Manejador : IRequestHandler<Ejecuta, List<DTO_Ciudad>>
         {
             private readonly Context _context;
             private readonly IMapper _mapper;
@@ -26,11 +26,11 @@ namespace Aplicacion.Provincia
                 _context = context;
                 _mapper = mapper;
             }
-            public async Task<List<DTO_Provincia>> Handle(Ejecuta request, CancellationToken cancellationToken)
+            public async Task<List<DTO_Ciudad>> Handle(Ejecuta request, CancellationToken cancellationToken)
             {
-                var provincias = await _context.Provincias.ToListAsync();
+                var ciudades = await _context.Ciudades.Include(c => c.Provincia).ToListAsync();
 
-                var listaDTO = _mapper.Map<List<Provincias>, List<DTO_Provincia>>(provincias);
+                var listaDTO = _mapper.Map<List<Ciudades>, List<DTO_Ciudad>>(ciudades);
 
                 return listaDTO;
             }
